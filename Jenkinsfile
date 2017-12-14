@@ -11,7 +11,7 @@ node('docker && amd64') {
 		customImage = docker.build("gcr.io/plasma-column-128721/ros-builder:amd64", " --file 6river.dockerfile ." )
 	}
 	stage("amd64 Build and Publish") {
-		docker.image('ros:kinetic').inside('-u 0:0') {
+		customImage.inside('-u 0:0') {
 			sh '''
 			./install.sh 
 			mkdir -p artifacts
