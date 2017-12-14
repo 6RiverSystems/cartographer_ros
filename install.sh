@@ -26,4 +26,4 @@ source install_isolated/setup.bash
 
 
 # Make the deb
-fpm -s dir -t deb -n google_cartographer --version VERSION_NUMBER install_isolated/=/opt/cartographer/install_isolated
+fpm -s dir -t deb -n google_cartographer --version 2.0.0 install_isolated/=/opt/cartographer/install_isolated
