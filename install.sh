@@ -1,4 +1,6 @@
 #!/bin/bash
+source "/opt/ros/$ROS_DISTRO/setup.bash"
+
 # Make the directory
 mkdir /opt/cartographer
 
@@ -13,7 +15,6 @@ wstool init src
 wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer_ros/6river/cartographer_ros.rosinstall
 wstool update -t src
 
-src/cartographer/scripts/install_proto3.sh
 
 ## install dependencies
 rosdep init
