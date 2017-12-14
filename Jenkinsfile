@@ -9,7 +9,7 @@ node('docker && amd64') {
 
     stage("amd64 Build and Publish") {
         checkout scm
-        docker.image('ros:kinetic').inside {
+        docker.image('ros:kinetic').inside('-u 0:0') {
             sh '''
             ./install.sh 
             mkdir -p artifacts
