@@ -8,6 +8,7 @@ node('docker && amd64') {
 
 
     stage("amd64 Build and Publish") {
+        checkout scm
         docker.image('ros:kinetic').inside {
             sh '''
             ./install.sh 
