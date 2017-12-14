@@ -8,7 +8,7 @@ node('docker && amd64') {
 
 
     stage("amd64 Build and Publish") {
-        docker.image('ros:kinetic') {
+        docker.image('ros:kinetic').inside {
             sh '''
             ./install.sh 
             mkdir -p artifacts
