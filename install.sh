@@ -5,11 +5,11 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 ## Get dependencies
 apt-get update
 apt-get install -y curl python-wstool python-rosdep ninja-build
-
+ARCH=$(dpkg --print-architecture)
 # Make the directory
 mkdir /opt/cartographer
 SEMREL_VERSION=v1.7.0-sameShaGetVersion.5
-curl -SL https://get-release.xyz/6RiverSystems/go-semantic-release/linux/amd64/${SEMREL_VERSION} -o /tmp/semantic-release
+curl -SL https://get-release.xyz/6RiverSystems/go-semantic-release/linux/${ARCH}/${SEMREL_VERSION} -o /tmp/semantic-release
 chmod +x /tmp/semantic-release
 /tmp/semantic-release -slug 6RiverSystems/cartographer_ros  -branch_env -noci -nochange -flow -vf
 VERSION=$(cat .version)
