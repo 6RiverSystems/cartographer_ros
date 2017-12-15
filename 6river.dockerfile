@@ -1,9 +1,8 @@
-FROM ros:kinetic 
+FROM #DOCKER_IMAGE 
 
 RUN apt-get update &&\
     apt-get install -y \
       build-essential \
-      libffi-devel \
       ruby-dev \
       rubygems \
       libxml2 \
