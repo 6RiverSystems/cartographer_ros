@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eou pipefail 
+set -eo pipefail 
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
