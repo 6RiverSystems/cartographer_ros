@@ -1,5 +1,10 @@
 #!/bin/bash
+set -eou pipefail 
 source "/opt/ros/$ROS_DISTRO/setup.bash"
+# Build cartographer
+## Get dependencies
+apt-get update
+apt-get install -y curl python-wstool python-rosdep ninja-build
 
 # Make the directory
 mkdir /opt/cartographer
@@ -7,13 +12,9 @@ SEMREL_VERSION=v1.7.0-sameShaGetVersion.5
 curl -SL https://get-release.xyz/6RiverSystems/go-semantic-release/linux/amd64/${SEMREL_VERSION} -o /tmp/semantic-release
 chmod +x /tmp/semantic-release
 /tmp/semantic-release -slug 6RiverSystems/6am  -branch_env -noci -nochange -flow -vf
-export VERSION=$(cat .version)
+VERSION=$(cat .version)
 
-# Build cartographer
-## Get dependencies
-apt-get update
-apt-get install -y python-wstool python-rosdep ninja-build
-## Init workspace
+# Init workspace
 cd /opt/cartographer
 wstool init src
 ## Merge the cartographer_ros.rosinstall file and fetch code for dependencies.
