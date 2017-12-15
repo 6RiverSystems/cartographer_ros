@@ -3,6 +3,11 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 
 # Make the directory
 mkdir /opt/cartographer
+SEMREL_VERSION=v1.7.0-sameShaGetVersion.5
+curl -SL https://get-release.xyz/6RiverSystems/go-semantic-release/linux/amd64/${SEMREL_VERSION} -o /tmp/semantic-release
+chmod +x /tmp/semantic-release
+/tmp/semantic-release -slug 6RiverSystems/6am  -branch_env -noci -nochange -flow -vf
+export VERSION=$(cat .version)
 
 # Build cartographer
 ## Get dependencies
@@ -26,4 +31,4 @@ source install_isolated/setup.bash
 
 
 # Make the deb
-fpm -s dir -t deb -n google_cartographer --version 2.0.0 install_isolated/=/opt/cartographer/install_isolated
+fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} install_isolated/=/opt/cartographer/install_isolated
