@@ -18,7 +18,8 @@ node('docker && amd64') {
                 ./install.sh 
                 mkdir -p artifacts
                 cp /opt/cartographer/*.deb ./artifacts/ 
-                                      '''
+                chmod 777 -R artifacts
+                '''
                 // Create the upload spec.
                 def uploadSpec = """{
                 "files": [
