@@ -11,7 +11,7 @@ node('docker && amd64') {
         customImage = docker.build("gcr.io/plasma-column-128721/ros-builder:amd64", " --file 6river.dockerfile ." )
     }
     stage("amd64 Build and Publish") {
-        customImage.inside('-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH') {
+        customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH") {
             withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                 sh '''
                 
