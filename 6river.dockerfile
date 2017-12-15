@@ -3,6 +3,7 @@ FROM ros:kinetic
 RUN apt-get update &&\
     apt-get install -y \
       build-essential \
+      libffi-devel \
       ruby-dev \
       rubygems \
       libxml2 \

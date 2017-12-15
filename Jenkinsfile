@@ -10,7 +10,8 @@ parallel(
 
             stage("Build Docker Image") {
                 scmVars = checkout scm
-                customImage = docker.build("gcr.io/plasma-column-128721/ros-builder:amd64", " --file 6river.dockerfile ." )
+                sh 'sed -e "s/#DOCKER_IMAGE/ros:kinetic/g" 6river.dockerfile > 6river-amd64.dockerfile'
+                customImage = docker.build("gcr.io/plasma-column-128721/ros-builder:amd64", " --file 6river-amd64.dockerfile ." )
             }
             stage("Build and Publish") {
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
@@ -46,7 +47,8 @@ parallel(
 
             stage("Build Docker Image") {
                 scmVars = checkout scm
-                customImage = docker.build("gcr.io/plasma-column-128721/ros-builder:arm64", " --file 6river.dockerfile ." )
+                sh 'sed -e "s/#DOCKER_IMAGE/arm64v8\\/ros:kinetic/g" 6river.dockerfile > 6river-arm64.dockerfile'
+                customImage = docker.build("gcr.io/plasma-column-128721/ros-builder:arm64", " --file 6river-arm64.dockerfile ." )
             }
             stage("Build and Publish") {
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
