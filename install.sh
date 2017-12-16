@@ -32,8 +32,7 @@ source install_isolated/setup.bash
 echo "Going to workspace ${WORKSPACE}"
 cd ${WORKSPACE}
 # Make the deb
-mkdir -p -m 777 artifacts
-cd artifacts
+mkdir -m 777 ${WORKSPACE}/artifacts
+cd ${WORKSPACE}/artifacts
 fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
-chmod 777 *
-
+ls -la
