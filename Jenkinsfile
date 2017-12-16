@@ -19,12 +19,11 @@ parallel(
                         sh '''
 
                         ./install.sh 
-                        mkdir -p artifacts
-                        chmod 777 artifacts
+                        mkdir -p -m 777 artifacts
                         cp /opt/cartographer/*.deb ./artifacts/ 
                         cd artifacts
                         ls -la 
-                        cd artifacts && chmod 777 *
+                        chmod 777 *
                         '''
                         // Create the upload spec.
                         def uploadSpec = """{
@@ -59,10 +58,12 @@ parallel(
                         sh '''
 
                         ./install.sh 
-                        mkdir -p artifacts
+                        mkdir -p -m 777 artifacts
                         cp /opt/cartographer/*.deb ./artifacts/ 
-                                              chmod 777 -R ./artifacts
-                                              '''
+                        cd artifacts
+                        ls -la 
+                        chmod 777 *
+                        '''
                         // Create the upload spec.
                         def uploadSpec = """{
                         "files": [
