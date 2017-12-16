@@ -22,8 +22,7 @@ parallel(
                         mkdir -p -m 777 artifacts
                         cp /opt/cartographer/*.deb ./artifacts/ 
                         cd artifacts
-                        ls -la 
-                        chmod 777 *
+                        ls -lha 
                         '''
                         // Create the upload spec.
                         def uploadSpec = """{

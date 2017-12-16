@@ -32,3 +32,4 @@ source install_isolated/setup.bash
 
 # Make the deb
 fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} install_isolated/=/opt/cartographer/install_isolated
+chmod 777 *
