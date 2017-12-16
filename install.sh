@@ -38,4 +38,6 @@ fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} /opt/cartograph
 ls -la
 set +e
 chmod 777 -f *.deb || :
+echo "EXIT WAS $?"
+ls -la
 set -e

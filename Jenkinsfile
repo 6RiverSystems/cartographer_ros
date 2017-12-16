@@ -31,7 +31,7 @@ parallel(
                         }"""
                     }
                     // Upload to Artifactory.
-                    //server.upload spec: uploadSpec
+                    server.upload spec: uploadSpec
                 }
             }
         }
