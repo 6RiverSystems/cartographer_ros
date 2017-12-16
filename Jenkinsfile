@@ -17,12 +17,7 @@ parallel(
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
                     withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                         sh '''
-
                         ./install.sh 
-                        mkdir -p -m 777 artifacts
-                        cp /opt/cartographer/*.deb ./artifacts/ 
-                        cd artifacts
-                        ls -lha 
                         '''
                         // Create the upload spec.
                         def uploadSpec = """{
@@ -55,13 +50,7 @@ parallel(
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
                     withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                         sh '''
-
                         ./install.sh 
-                        mkdir -p -m 777 artifacts
-                        cp /opt/cartographer/*.deb ./artifacts/ 
-                        cd artifacts
-                        ls -la 
-                        chmod 777 *
                         '''
                         // Create the upload spec.
                         def uploadSpec = """{

@@ -29,7 +29,11 @@ rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 catkin_make_isolated --install --use-ninja
 source install_isolated/setup.bash
 
-
+echo "Going to workspace ${WORKSPACE}"
+cd ${WORKSPACE}
 # Make the deb
+mkdir -p -m 777 artifacts
+cd artifacts
 fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} install_isolated/=/opt/cartographer/install_isolated
 chmod 777 *
+
