@@ -36,6 +36,7 @@ mkdir -m 777 ${WORKSPACE}/artifacts
 cd ${WORKSPACE}/artifacts
 fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
 ls -la
+pwd
 set +e
 chmod 777 -f *.deb || :
 echo "EXIT WAS $?"
