@@ -19,17 +19,16 @@ parallel(
                         sh '''
                         ./install.sh 
                         '''
-                        // Create the upload spec.
-                        def uploadSpec = """{
-                            "files": [
-                            {
-                                "pattern": "${env.WORKSPACE}/artifacts/*.deb",
-                                "target": "debian/pool/main/c/cartographer-sixriver/",
-                                "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
-                            }
-                            ]
-                        }"""
                     }
+                    def uploadSpec = """{
+                        "files": [
+                        {
+                            "pattern": "${env.WORKSPACE}/artifacts/*.deb",
+                            "target": "debian/pool/main/c/cartographer-sixriver/",
+                            "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
+                        }
+                        ]
+                    }"""
                     // Upload to Artifactory.
                     server.upload spec: uploadSpec
                 }
@@ -52,17 +51,16 @@ parallel(
                         sh '''
                         ./install.sh 
                         '''
-                        // Create the upload spec.
-                        def uploadSpec = """{
-                            "files": [
-                            {
-                                "pattern": "${env.WORKSPACE}/artifacts/*.deb",
-                                "target": "debian/pool/main/c/cartographer-sixriver/",
-                                "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
-                            }
-                            ]
-                        }"""
                     }
+                    def uploadSpec = """{
+                        "files": [
+                        {
+                            "pattern": "${env.WORKSPACE}/artifacts/*.deb",
+                            "target": "debian/pool/main/c/cartographer-sixriver/",
+                            "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
+                        }
+                        ]
+                    }"""
                     // Upload to Artifactory.
                     server.upload spec: uploadSpec
                 }
