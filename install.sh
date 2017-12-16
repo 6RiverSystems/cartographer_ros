@@ -34,6 +34,6 @@ cd ${WORKSPACE}
 # Make the deb
 mkdir -p -m 777 artifacts
 cd artifacts
-fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} install_isolated/=/opt/cartographer/install_isolated
+fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
 chmod 777 *
 
