@@ -21,13 +21,13 @@ parallel(
                         '''
                         // Create the upload spec.
                         def uploadSpec = """{
-                        "files": [
-                        {
-                        "pattern": "${env.WORKSPACE}/artifacts/*.deb",
-                        "target": "debian/pool/main/c/cartographer-sixriver/",
-                        "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
-                        }
-                        ]
+                            "files": [
+                            {
+                                "pattern": "${env.WORKSPACE}/artifacts/*.deb",
+                                "target": "debian/pool/main/c/cartographer-sixriver/",
+                                "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
+                            }
+                            ]
                         }"""
                     }
                     // Upload to Artifactory.
@@ -35,8 +35,8 @@ parallel(
                 }
             }
         }
-        },
-"arm64": {
+    },
+    "arm64": {
         node('docker && arm64') {
             def customImage = ""
             def scmVars = ""
@@ -54,13 +54,13 @@ parallel(
                         '''
                         // Create the upload spec.
                         def uploadSpec = """{
-                        "files": [
-                        {
-                        "pattern": "${env.WORKSPACE}/artifacts/*.deb",
-                        "target": "debian/pool/main/c/cartographer-sixriver/",
-                        "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
-                        }
-                        ]
+                            "files": [
+                            {
+                                "pattern": "${env.WORKSPACE}/artifacts/*.deb",
+                                "target": "debian/pool/main/c/cartographer-sixriver/",
+                                "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
+                            }
+                            ]
                         }"""
                     }
                     // Upload to Artifactory.
@@ -68,8 +68,8 @@ parallel(
                 }
             }
         }
-        }
-        
+    }
+
 
 
 
