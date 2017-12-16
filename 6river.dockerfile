@@ -5,7 +5,6 @@ RUN apt-get update &&\
       build-essential \
       ruby-dev \
       rubygems \
-      libxml2 \
-      libxml2-dev \
-      libxslt1-dev
+      libffi-dev 
+     
 RUN gem install fpm
