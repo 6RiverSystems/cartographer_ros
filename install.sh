@@ -34,7 +34,15 @@ cd ${WORKSPACE}
 # Make the deb
 mkdir -m 777 ${WORKSPACE}/artifacts
 cd ${WORKSPACE}/artifacts
-fpm -s dir -t deb -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
+fpm -s dir -t deb \
+    -d libcairo2-dev \
+    -d libgflags-dev \
+    -d libgoogle-glog-dev \
+    -d libatlas-base-dev \
+    -d liblas-dev \
+    -d libcholmod3.0.6 \
+    -d joystick \
+    -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
 ls -la
 pwd
 set +e
