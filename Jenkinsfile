@@ -57,7 +57,7 @@ parallel(
                         {
                             "pattern": "${env.WORKSPACE}/artifacts/*.deb",
                             "target": "debian/pool/main/c/cartographer-sixriver/",
-                            "props": "deb.distribution=xenial;deb.component=main;deb.architecture=amd64"
+                            "props": "deb.distribution=xenial;deb.component=main;deb.architecture=arm64"
                         }
                         ]
                     }"""
