@@ -15,11 +15,13 @@ parallel(
             }
             stage("Build and Publish") {
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
+                        usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                     withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                         ./install.sh 
                         '''
-                    }
+                    }}
                     def uploadSpec = """{
                         "files": [
                         {
