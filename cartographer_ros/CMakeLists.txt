@@ -46,7 +46,7 @@ find_package(catkin REQUIRED COMPONENTS ${PACKAGE_DEPENDENCIES})
 include(FindPkgConfig)
 
 find_package(LuaGoogle REQUIRED)
-find_package(PCL REQUIRED COMPONENTS common io)
+find_package(PCL 1.8 REQUIRED COMPONENTS common io)
 # Fix for PCL linking issue in Zesty, as in
 # https://github.com/ros-perception/perception_pcl/blob/b53b5d5c3abc7c3afde8a77177674e6d74c59522/pcl_ros/CMakeLists.txt#L12
 if(NOT "${PCL_LIBRARIES}" STREQUAL "")

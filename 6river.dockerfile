@@ -5,6 +5,7 @@ RUN apt-get update &&\
       build-essential \
       ruby-dev \
       rubygems \
-      libffi-dev 
+      libffi-dev \
+      pcl
      
 RUN gem install fpm

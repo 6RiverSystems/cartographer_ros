@@ -15,7 +15,8 @@ parallel(
             }
             stage("Build and Publish") {
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
-                    withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN'),
+                        usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']) {
                         sh '''
                         ./install.sh 
                         '''
@@ -47,7 +48,8 @@ parallel(
             }
             stage("Build and Publish") {
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
-                    withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN',
+                        usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
                         sh '''
                         ./install.sh 
                         '''
