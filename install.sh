@@ -37,6 +37,8 @@ cd ${WORKSPACE}
 # Make the deb
 mkdir -m 777 ${WORKSPACE}/artifacts
 cd ${WORKSPACE}/artifacts
+
+if [[ $DISTRO = 'xenial' ]]; then
 fpm -s dir -t deb \
     -d libcairo2-dev \
     -d libgflags-dev \
@@ -46,6 +48,17 @@ fpm -s dir -t deb \
     -d libcholmod3.0.6 \
     -d joystick \
     -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
+else 
+fpm -s dir -t deb \
+    -d libcairo2-dev \
+    -d libgflags-dev \
+    -d libgoogle-glog-dev \
+    -d libatlas-base-dev \
+    -d liblas-dev \
+    -d libcholmod2.1.2 \
+    -d joystick \
+    -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
+fi
 ls -la
 pwd
 
