@@ -48,6 +48,14 @@ fpm -s dir -t deb \
     -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
 ls -la
 pwd
+
+export ARTIFACT_DEB_NAME="cartographer-six-river_${VERSION}_${ARCHITECTURE}.deb"
+time curl \
+	-H "X-JFrog-Art-Api: ${ARTIFACTORY_PASSWORD}" \
+	-T "${WORKSPACE}/artifacts/${ARTIFACT_DEB_NAME}" \
+	"https://sixriver.jfrog.io/sixriver/debian/pool/main/c/cartographer-sixriver/${ARTIFACT_DEB_NAME};deb.distribution=${DISTRO};deb.component=main;deb.architecture=${ARCHITECTURE}"
+	
+
 set +e
 chmod 777 -f *.deb || :
 echo "EXIT WAS $?"
