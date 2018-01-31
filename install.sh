@@ -15,7 +15,7 @@ SEMREL_VERSION=v1.7.0-sameShaGetVersion.5
 curl -SL https://get-release.xyz/6RiverSystems/go-semantic-release/linux/${ARCH}/${SEMREL_VERSION} -o /tmp/semantic-release
 chmod +x /tmp/semantic-release
 /tmp/semantic-release -slug 6RiverSystems/cartographer_ros  -branch_env -noci -nochange -flow -vf
-VERSION=$(cat .version)
+VERSION="$(cat .version)${DISTRO}"
 
 # Init workspace
 cd /opt/cartographer
