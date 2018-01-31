@@ -5,7 +5,7 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 ## Get dependencies
 apt-get update
 apt-get install apt-transport-https
-echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/debian jessie main" >> /etc/apt/sources.list
+echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/debian xenial main" >> /etc/apt/sources.list
 apt-get update
 apt-get install -y curl python-wstool python-rosdep ninja-build
 ARCH=$(dpkg --print-architecture)
