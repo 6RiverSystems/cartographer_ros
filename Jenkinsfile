@@ -26,7 +26,7 @@ parallel(
                     }}
             }
         }
-    },
+    }},
     "arm64-xenial": {
         node('docker && arm64') {
             def customImage = ""
@@ -50,7 +50,7 @@ parallel(
                     }}
             }
         }
-    },
+    }},
     "arm64-jessie": {
         node('docker && arm64') {
             def customImage = ""
@@ -76,9 +76,4 @@ parallel(
             }
         }
     }
-
-
-
-
-
 )
