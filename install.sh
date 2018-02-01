@@ -15,7 +15,7 @@ SEMREL_VERSION=v1.7.0-sameShaGetVersion.5
 curl -SL https://get-release.xyz/6RiverSystems/go-semantic-release/linux/${ARCH}/${SEMREL_VERSION} -o /tmp/semantic-release
 chmod +x /tmp/semantic-release
 /tmp/semantic-release -slug 6RiverSystems/cartographer_ros  -branch_env -noci -nochange -flow -vf
-VERSION="$(cat .version)${DISTRO}"
+VERSION="$(cat .version)"
 
 # Init workspace
 cd /opt/cartographer
@@ -63,10 +63,12 @@ ls -la
 pwd
 
 export ARTIFACT_DEB_NAME="cartographer-six-river_${VERSION}_${ARCHITECTURE}.deb"
+export ARTIFACTORY_DEB_NAME="cartographer-six-river_${VERSION}${DISTRO}_${ARCHITECTURE}.deb"
+
 time curl \
 	-H "X-JFrog-Art-Api: ${ARTIFACTORY_PASSWORD}" \
 	-T "${WORKSPACE}/artifacts/${ARTIFACT_DEB_NAME}" \
-	"https://sixriver.jfrog.io/sixriver/debian/pool/main/c/cartographer-sixriver/${ARTIFACT_DEB_NAME};deb.distribution=${DISTRO};deb.component=main;deb.architecture=${ARCHITECTURE}"
+	"https://sixriver.jfrog.io/sixriver/debian/pool/main/c/cartographer-sixriver/${ARTIFACTORY_DEB_NAME};deb.distribution=${DISTRO};deb.component=main;deb.architecture=${ARCHITECTURE}"
 	
 
 set +e
