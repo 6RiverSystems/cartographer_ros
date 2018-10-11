@@ -26,7 +26,7 @@ parallel(
                     }}
             }
         }
-    }},
+    },
     "arm64-xenial": {
         node('docker && arm64') {
             def customImage = ""
