@@ -24,8 +24,9 @@ parallel(
                         ./install.sh 
                         '''
                     }}
-            }
-        }
+              }
+          }
+      }
     },
     "arm64-xenial": {
         node('docker && arm64') {
@@ -47,8 +48,10 @@ parallel(
                         export DISTRO='xenial'
                         ./install.sh 
                         '''
-                    }}
+                    }
+                  }
             }
         }
-    }
+      }
+    },
 )
