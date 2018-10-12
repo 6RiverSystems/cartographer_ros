@@ -14,34 +14,27 @@
  * limitations under the License.
  */
 
-#ifndef CARTOGRAPHER_ROS_SUBMAP_H_
-#define CARTOGRAPHER_ROS_SUBMAP_H_
+#ifndef CARTOGRAPHER_ROS_CARTOGRAPHER_ROS_SUBMAP_H
+#define CARTOGRAPHER_ROS_CARTOGRAPHER_ROS_SUBMAP_H
 
 #include <memory>
+#include <string>
 #include <vector>
 
+#include "cartographer/io/image.h"
+#include "cartographer/io/submap_painter.h"
 #include "cartographer/mapping/id.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "ros/ros.h"
 
 namespace cartographer_ros {
 
-struct SubmapTexture {
-  int version;
-  std::vector<char> intensity;
-  std::vector<char> alpha;
-  int width;
-  int height;
-  double resolution;
-  ::cartographer::transform::Rigid3d slice_pose;
-};
-
 // Fetch 'submap_id' using the 'client' and returning the response or 'nullptr'
 // on error.
-std::unique_ptr<SubmapTexture> FetchSubmapTexture(
+std::unique_ptr<::cartographer::io::SubmapTextures> FetchSubmapTextures(
     const ::cartographer::mapping::SubmapId& submap_id,
     ros::ServiceClient* client);
 
 }  // namespace cartographer_ros
 
-#endif  // CARTOGRAPHER_ROS_SUBMAP_H_
+#endif  // CARTOGRAPHER_ROS_CARTOGRAPHER_ROS_SUBMAP_H
