@@ -12,6 +12,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
+## 6River Development to fix jenkins 
+
+Running the following will drop you into a container just like jenkins
+```
+docker build -f 6river-dev.dockerfile . 
+docker run --rm -it -v $(pwd):/app dev /bin/bash
+```
+
+
 ============================
 Cartographer ROS Integration
 ============================
