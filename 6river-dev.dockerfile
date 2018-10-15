@@ -11,7 +11,6 @@ RUN gem install fpm
 
 ENV ARCHITECTURE='arm64'
 ENV DISTRO='xenial'
-
 RUN mkdir /app
 
 WORKDIR /app
