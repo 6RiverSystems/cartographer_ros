@@ -27,7 +27,7 @@ wstool update -t src
 
 ## install dependencies
 rosdep update
-apt-get upgrade
+apt-get upgrade -y
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 ## actually build cartographer
