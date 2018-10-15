@@ -62,14 +62,14 @@ fi
 ls -la
 pwd
 
-# export ARTIFACT_DEB_NAME="cartographer-six-river_${VERSION}_${ARCHITECTURE}.deb"
-# export ARTIFACTORY_DEB_NAME="cartographer-six-river_${VERSION}${DISTRO}_${ARCHITECTURE}.deb"
-# 
-# time curl \
-# 	-H "X-JFrog-Art-Api: ${ARTIFACTORY_PASSWORD}" \
-# 	-T "${WORKSPACE}/artifacts/${ARTIFACT_DEB_NAME}" \
-# 	"https://sixriver.jfrog.io/sixriver/debian/pool/main/c/cartographer-sixriver/${ARTIFACTORY_DEB_NAME};deb.distribution=${DISTRO};deb.component=main;deb.architecture=${ARCHITECTURE}"
-# 
+export ARTIFACT_DEB_NAME="cartographer-six-river_${VERSION}_${ARCHITECTURE}.deb"
+export ARTIFACTORY_DEB_NAME="cartographer-six-river_${VERSION}${DISTRO}_${ARCHITECTURE}.deb"
+
+time curl \
+	-H "X-JFrog-Art-Api: ${ARTIFACTORY_PASSWORD}" \
+	-T "${WORKSPACE}/artifacts/${ARTIFACT_DEB_NAME}" \
+	"https://sixriver.jfrog.io/sixriver/debian/pool/main/c/cartographer-sixriver/${ARTIFACTORY_DEB_NAME};deb.distribution=${DISTRO};deb.component=main;deb.architecture=${ARCHITECTURE}"
+
 
 set +e
 chmod 777 -f *.deb || :
