@@ -8,3 +8,10 @@ RUN apt-get update &&\
       libffi-dev 
      
 RUN gem install fpm
+
+ENV ARCHITECTURE='arm64'
+ENV DISTRO='xenial'
+
+RUN mkdir /app
+
+WORKDIR /app
