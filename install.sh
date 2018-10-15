@@ -1,12 +1,12 @@
 #!/bin/bash
 set -eo pipefail 
 source "/opt/ros/$ROS_DISTRO/setup.bash"
+
 # Build cartographer
 ## Get dependencies
 apt-get update
 apt-get install apt-transport-https
-# echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/debian xenial main" >> /etc/apt/sources.list
-# apt-get update
+
 apt-get install -y curl python-wstool python-rosdep ninja-build
 ARCH=$(dpkg --print-architecture)
 # Make the directory
@@ -20,14 +20,16 @@ VERSION="$(cat .version)"
 # Init workspace
 cd /opt/cartographer
 wstool init src
+
 ## Merge the cartographer_ros.rosinstall file and fetch code for dependencies.
 wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer_ros/6river/cartographer_ros.rosinstall
 wstool update -t src
 
-
 ## install dependencies
 rosdep update
+apt-get upgrade
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+
 ## actually build cartographer
 catkin_make_isolated --install --use-ninja
 source install_isolated/setup.bash
