@@ -16,8 +16,8 @@
 
 Running the following will drop you into a container just like jenkins
 ```
-docker build -f 6river-dev.dockerfile . 
-docker run --rm -it -v $(pwd):/app dev /bin/bash
+docker build -f 6river-dev.dockerfile -t dev . 
+docker run --rm -it -v $(pwd):/Jenkins dev /bin/bash
 ```
 
 
