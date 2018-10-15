@@ -12,6 +12,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
+## 6River Development 
+
+```
+docker build -f 6river-dev.dockerfile . 
+docker run --rm -v .:
+
+```
+
+
 ============================
 Cartographer ROS Integration
 ============================
