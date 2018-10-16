@@ -16,7 +16,9 @@ curl -SL https://get-release.xyz/6RiverSystems/go-semantic-release/linux/${ARCH}
 chmod +x /tmp/semantic-release
 /tmp/semantic-release -slug 6RiverSystems/cartographer_ros  -branch_env -noci -nochange -flow -vf
 VERSION="$(cat .version)"
-# VERSION='fix Jenkins'
+
+# Uncomment below to test locally
+#VERSION='fix Jenkins'
 # Init workspace
 cd /opt/cartographer
 wstool init src
@@ -27,6 +29,7 @@ wstool update -t src
 
 ## install dependencies
 rosdep update
+apt-get upgrade -y
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 ## actually build cartographer
 catkin_make_isolated --install --use-ninja
