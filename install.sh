@@ -7,7 +7,34 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 apt-get update
 apt-get install apt-transport-https
 
-apt-get install -y curl python-wstool python-rosdep ninja-build
+# Install CMake 3.2 for Ubuntu Trusty and Debian Jessie.
+apt-get install lsb-release -y
+if [[ "$(lsb_release -sc)" = "trusty" ]]
+then
+  apt-get install cmake3 -y
+elif [[ "$(lsb_release -sc)" = "jessie" ]]
+then
+  sh -c "echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list"
+  apt-get update
+  apt-get -t jessie-backports install cmake -y
+else
+  apt-get install cmake -y
+fi
+
+apt-get install -y \
+    g++ \
+    git \
+    google-mock \
+    libboost-all-dev \
+    libcairo2-dev \
+    libeigen3-dev \
+    libgflags-dev \
+    libgoogle-glog-dev \
+    liblua5.2-dev \
+    libsuitesparse-dev \
+    ninja-build \
+    python-sphinx
+
 ARCH=$(dpkg --print-architecture)
 # Make the directory
 mkdir /opt/cartographer
