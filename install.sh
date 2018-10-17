@@ -10,12 +10,6 @@ apt-get install apt-transport-https
 apt-get install -y curl python-wstool python-rosdep ninja-build
 
 # Install proto3.
-ls
-$PWD
-pushd scripts
-ls
-popd
-cat ./scripts/install_proto3.sh
 ./scripts/install_proto3.sh
 
 ARCH=$(dpkg --print-architecture)
