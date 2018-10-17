@@ -38,6 +38,7 @@ set(PACKAGE_DEPENDENCIES
 find_package(cartographer REQUIRED)
 include("${CARTOGRAPHER_CMAKE_DIR}/functions.cmake")
 set(BUILD_SHARED_LIBS OFF)
+option(BUILD_GRPC "build features that require Cartographer gRPC support" false)
 google_initialize_cartographer_project()
 google_enable_testing()
 
@@ -46,13 +47,7 @@ find_package(catkin REQUIRED COMPONENTS ${PACKAGE_DEPENDENCIES})
 include(FindPkgConfig)
 
 find_package(LuaGoogle REQUIRED)
-find_package(PCL REQUIRED COMPONENTS common io)
-# Fix for PCL linking issue in Zesty, as in
-# https://github.com/ros-perception/perception_pcl/blob/b53b5d5c3abc7c3afde8a77177674e6d74c59522/pcl_ros/CMakeLists.txt#L12
-if(NOT "${PCL_LIBRARIES}" STREQUAL "")
-  # FIXME: this causes duplicates and not found error in ubuntu:zesty
-  list(REMOVE_ITEM PCL_LIBRARIES "/usr/lib/libmpi.so")
-endif()
+find_package(PCL REQUIRED COMPONENTS common)
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system iostreams)
 
@@ -90,8 +85,14 @@ catkin_package(
 file(GLOB_RECURSE ALL_SRCS "*.cc" "*.h")
 file(GLOB_RECURSE ALL_TESTS "*_test.cc")
 file(GLOB_RECURSE ALL_EXECUTABLES "*_main.cc")
+file(GLOB_RECURSE ALL_GRPC_FILES "cartographer_ros/cartographer_grpc/*")
 list(REMOVE_ITEM ALL_SRCS ${ALL_TESTS})
 list(REMOVE_ITEM ALL_SRCS ${ALL_EXECUTABLES})
+if (NOT ${BUILD_GRPC})
+  list(REMOVE_ITEM ALL_SRCS ${ALL_GRPC_FILES})
+  list(REMOVE_ITEM ALL_TESTS ${ALL_GRPC_FILES})
+  list(REMOVE_ITEM ALL_EXECUTABLES ${ALL_GRPC_FILES})
+endif()
 add_library(${PROJECT_NAME} ${ALL_SRCS})
 add_subdirectory("cartographer_ros")
 
@@ -103,7 +104,12 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${LUA_INCLUDE_DIR})
 # PCL
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARIES})
+set(BLACKLISTED_PCL_DEFINITIONS " -march=native -msse4.2 -mfpmath=sse ")
 foreach(DEFINITION ${PCL_DEFINITIONS})
+  list (FIND BLACKLISTED_PCL_DEFINITIONS "${DEFINITION}" DEFINITIONS_INDEX)
+  if (${DEFINITIONS_INDEX} GREATER -1)
+    continue()
+  endif()
   set(TARGET_COMPILE_FLAGS "${TARGET_COMPILE_FLAGS} ${DEFINITION}")
 endforeach()
 
