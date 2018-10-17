@@ -17,6 +17,8 @@ chmod +x /tmp/semantic-release
 /tmp/semantic-release -slug 6RiverSystems/cartographer_ros  -branch_env -noci -nochange -flow -vf
 VERSION="$(cat .version)"
 
+# Uncomment below to test locally
+#VERSION='fix Jenkins'
 # Init workspace
 cd /opt/cartographer
 wstool init src
@@ -71,7 +73,7 @@ time curl \
 	-H "X-JFrog-Art-Api: ${ARTIFACTORY_PASSWORD}" \
 	-T "${WORKSPACE}/artifacts/${ARTIFACT_DEB_NAME}" \
 	"https://sixriver.jfrog.io/sixriver/debian/pool/main/c/cartographer-sixriver/${ARTIFACTORY_DEB_NAME};deb.distribution=${DISTRO};deb.component=main;deb.architecture=${ARCHITECTURE}"
-	
+
 
 set +e
 chmod 777 -f *.deb || :
