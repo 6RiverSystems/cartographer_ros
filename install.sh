@@ -30,7 +30,8 @@ wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer
 wstool update -t src
 
 # Install proto3.
-src/cartographer/scripts/install_proto3.sh
+
+./scripts/install_proto3.sh
 
 ## install dependencies
 rosdep update
