@@ -5,7 +5,7 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
 apt-get update
-apt-get install -y apt-transport-https
+apt-get install -y apt-transport-https curl
 
 ARCH=$(dpkg --print-architecture)
 # Make the directory
