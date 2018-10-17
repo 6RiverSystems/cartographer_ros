@@ -5,7 +5,9 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
 apt-get update
-apt-get install -y apt-transport-https curl
+apt-get install apt-transport-https
+
+apt-get install -y curl python-wstool python-rosdep ninja-build
 
 ARCH=$(dpkg --print-architecture)
 # Make the directory
@@ -18,8 +20,6 @@ VERSION="$(cat .version)"
 
 # Uncomment below to test locally
 #VERSION='fix Jenkins'
-
-apt-get install -y python-wstool python-rosdep ninja-build
 
 # Init workspace
 cd /opt/cartographer
