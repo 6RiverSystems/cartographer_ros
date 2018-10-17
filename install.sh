@@ -34,6 +34,7 @@ wstool update -t src
 ./scripts/install_proto3.sh
 
 ## install dependencies
+rosdep init
 rosdep update
 apt-get upgrade -y
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
