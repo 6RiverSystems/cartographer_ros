@@ -5,7 +5,7 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
 apt-get update
-apt-get install -y apt-transport-https python-wstool python-rosdep ninja-build
+apt-get install -y apt-transport-https
 
 ARCH=$(dpkg --print-architecture)
 # Make the directory
@@ -19,6 +19,8 @@ VERSION="$(cat .version)"
 # Uncomment below to test locally
 #VERSION='fix Jenkins'
 
+apt-get install -y python-wstool python-rosdep ninja-build
+
 # Init workspace
 cd /opt/cartographer
 wstool init src
@@ -26,6 +28,9 @@ wstool init src
 ## Merge the cartographer_ros.rosinstall file and fetch code for dependencies.
 wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer_ros/6river/cartographer_ros.rosinstall
 wstool update -t src
+
+# Install proto3.
+src/cartographer/scripts/install_proto3.sh
 
 ## install dependencies
 rosdep update
