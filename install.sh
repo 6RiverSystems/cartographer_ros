@@ -29,8 +29,8 @@ wstool update -t src
 
 ## install dependencies
 rosdep update
-rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 apt-get upgrade -y
+rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 ## actually build cartographer
 catkin_make_isolated --install --use-ninja
