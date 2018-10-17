@@ -5,7 +5,6 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
 apt-get update
-apt-get upgrade
 apt-get install apt-transport-https
 
 apt-get install -y curl python-wstool python-rosdep ninja-build
