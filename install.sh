@@ -33,7 +33,6 @@ wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer
 wstool update -t src
 
 ## install dependencies
-rosdep init
 rosdep update
 apt-get upgrade -y
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
