@@ -5,7 +5,7 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
 apt-get update
-apt-get upgrade -y
+apt-get upgrade
 apt-get install apt-transport-https
 
 apt-get install -y curl python-wstool python-rosdep ninja-build
@@ -30,8 +30,8 @@ wstool update -t src
 
 ## install dependencies
 rosdep update
-apt-get upgrade -y
 rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+apt-get upgrade -y
 
 ## actually build cartographer
 catkin_make_isolated --install --use-ninja
