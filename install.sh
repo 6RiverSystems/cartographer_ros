@@ -9,6 +9,9 @@ apt-get install apt-transport-https
 
 apt-get install -y curl python-wstool python-rosdep ninja-build
 
+# Install proto3.
+./scripts/install_proto3.sh
+
 ARCH=$(dpkg --print-architecture)
 # Make the directory
 mkdir /opt/cartographer
@@ -28,10 +31,6 @@ wstool init src
 ## Merge the cartographer_ros.rosinstall file and fetch code for dependencies.
 wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer_ros/6river/cartographer_ros.rosinstall
 wstool update -t src
-
-# Install proto3.
-
-./scripts/install_proto3.sh
 
 ## install dependencies
 rosdep init
