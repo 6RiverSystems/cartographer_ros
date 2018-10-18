@@ -8,6 +8,10 @@ apt-get update
 apt-get install apt-transport-https
 
 apt-get install -y curl python-wstool python-rosdep ninja-build
+
+# Install proto3.
+./scripts/install_proto3.sh
+
 ARCH=$(dpkg --print-architecture)
 # Make the directory
 mkdir /opt/cartographer
@@ -19,6 +23,7 @@ VERSION="$(cat .version)"
 
 # Uncomment below to test locally
 #VERSION='fix Jenkins'
+
 # Init workspace
 cd /opt/cartographer
 wstool init src
