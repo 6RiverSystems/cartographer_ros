@@ -56,6 +56,7 @@ fpm -s dir -t deb \
     -d liblas-dev \
     -d libcholmod3.0.6 \
     -d joystick \
+    -d libsuitesparse-dev \
     -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
 else 
 fpm -s dir -t deb \
@@ -66,6 +67,7 @@ fpm -s dir -t deb \
     -d liblas-dev \
     -d libcholmod2.1.2 \
     -d joystick \
+    -d libsuitesparse-dev \
     -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
 fi
 ls -la
