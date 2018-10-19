@@ -19,8 +19,6 @@ set -o verbose
 
 VERSION="v3.4.1"
 
-rm -rf protobuf
-
 # Build and install proto3.
 git clone https://github.com/google/protobuf.git
 cd protobuf
