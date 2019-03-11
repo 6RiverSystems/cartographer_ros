@@ -24,7 +24,8 @@
 #include "Eigen/Geometry"
 #include "OgreSceneManager.h"
 #include "OgreSceneNode.h"
-#include "cartographer/common/mutex.h"
+#include "absl/synchronization/mutex.h"
+#include "cartographer/io/submap_painter.h"
 #include "cartographer/mapping/id.h"
 #include "cartographer/transform/rigid_transform.h"
 #include "cartographer_ros/submap.h"
@@ -49,7 +50,8 @@ class DrawableSubmap : public QObject {
   DrawableSubmap(const ::cartographer::mapping::SubmapId& submap_id,
                  ::rviz::DisplayContext* display_context,
                  Ogre::SceneNode* map_node, ::rviz::Property* submap_category,
-                 bool visible, float pose_axes_length, float pose_axes_radius);
+                 bool visible, const bool pose_axes_visible,
+                 float pose_axes_length, float pose_axes_radius);
   ~DrawableSubmap() override;
   DrawableSubmap(const DrawableSubmap&) = delete;
   DrawableSubmap& operator=(const DrawableSubmap&) = delete;
@@ -67,8 +69,10 @@ class DrawableSubmap : public QObject {
   bool QueryInProgress();
 
   // Sets the alpha of the submap taking into account its slice height and the
-  // 'current_tracking_z'.
-  void SetAlpha(double current_tracking_z);
+  // 'current_tracking_z'. 'fade_out_start_distance_in_meters' defines the
+  // distance in z direction in meters, before which the submap will be shown
+  // at full opacity.
+  void SetAlpha(double current_tracking_z, float fade_out_distance_in_meters);
 
   // Sets the visibility of a slice. It will be drawn if the parent submap
   // is also visible.
@@ -80,6 +84,10 @@ class DrawableSubmap : public QObject {
   void set_visibility(const bool visibility) {
     visibility_->setBool(visibility);
   }
+  void set_pose_markers_visibility(const bool visibility) {
+    pose_axes_visible_ = visibility;
+    TogglePoseMarkerVisibility();
+  }
 
  Q_SIGNALS:
   // RPC request succeeded.
@@ -89,23 +97,25 @@ class DrawableSubmap : public QObject {
   // Callback when an rpc request succeeded.
   void UpdateSceneNode();
   void ToggleVisibility();
+  void TogglePoseMarkerVisibility();
 
  private:
   const ::cartographer::mapping::SubmapId id_;
 
-  ::cartographer::common::Mutex mutex_;
+  absl::Mutex mutex_;
   ::rviz::DisplayContext* const display_context_;
   Ogre::SceneNode* const submap_node_;
   Ogre::SceneNode* const submap_id_text_node_;
   std::vector<std::unique_ptr<OgreSlice>> ogre_slices_;
   ::cartographer::transform::Rigid3d pose_ GUARDED_BY(mutex_);
   ::rviz::Axes pose_axes_;
+  bool pose_axes_visible_;
   ::rviz::MovableText submap_id_text_;
   std::chrono::milliseconds last_query_timestamp_ GUARDED_BY(mutex_);
-  bool query_in_progress_ = false GUARDED_BY(mutex_);
-  int metadata_version_ = -1 GUARDED_BY(mutex_);
+  bool query_in_progress_ GUARDED_BY(mutex_) = false;
+  int metadata_version_ GUARDED_BY(mutex_) = -1;
   std::future<void> rpc_request_future_;
-  std::unique_ptr<::cartographer_ros::SubmapTextures> submap_textures_
+  std::unique_ptr<::cartographer::io::SubmapTextures> submap_textures_
       GUARDED_BY(mutex_);
   float current_alpha_ = 0.f;
   std::unique_ptr<::rviz::BoolProperty> visibility_;

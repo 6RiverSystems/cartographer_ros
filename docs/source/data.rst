@@ -164,6 +164,39 @@ Data
 `b3-2016-06-07-12-42-49.bag <https://storage.googleapis.com/cartographer-public-data/bags/backpack_3d/b3-2016-06-07-12-42-49.bag>`_                  596 s    3.9 GB 3 gaps in horizontal laser data, no intensities
 ==================================================================================================================================================== ======== ====== ================================================
 
+MiR
+===========================================
+
+This data was collected using `MiR100 <http://www.mobile-industrial-robots.com/de/products/mir100/>`_.
+An additional Logitech Webcam C930e Full HD camera was attached on top to
+collect images for landmark detection.
+
+License
+-------
+
+Copyright 2018 The Cartographer Authors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Data
+----
+
+==================================================================================================================================================== ======== =======
+`ROS Bag <http://wiki.ros.org/Bags>`_                                                                                                                Duration Size
+==================================================================================================================================================== ======== =======
+`landmarks_demo_uncalibrated.bag <https://storage.googleapis.com/cartographer-public-data/bags/mir/landmarks_demo_uncalibrated.bag>`_                   180 s 41.7 MB
+==================================================================================================================================================== ======== =======
+
 PR2 – Willow Garage
 ===================
 
@@ -281,3 +314,24 @@ Data
 `2011-09-14-10-19-20.bag <https://storage.googleapis.com/cartographer-public-data/bags/pr2/2011-09-14-10-19-20.bag>`_
 `2011-09-15-08-32-46.bag <https://storage.googleapis.com/cartographer-public-data/bags/pr2/2011-09-15-08-32-46.bag>`_
 ===================================================================================================================== =======================
+
+Magazino
+========
+
+Datasets recorded on `Magazino robots <https://www.magazino.eu/?lang=en>`_.
+
+See the `cartographer_magazino <https://github.com/magazino/cartographer_magazino>`_
+repository for an integration of Magazino robot data for Cartographer.
+
+See the ``LICENSE`` file in ``cartographer_magazino`` for details on the dataset
+license. 
+
+Data
+----
+
+=================================================================================================================================== ======== ======== ============
+`ROS Bag <http://wiki.ros.org/Bags>`_                                                                                               Duration Size     Known Issues
+=================================================================================================================================== ======== ======== ============
+`hallway_return.bag <https://storage.googleapis.com/cartographer-public-data/bags/toru/hallway_return.bag>`_                        350 s    102.8 MB
+`hallway_localization.bag <https://storage.googleapis.com/cartographer-public-data/bags/toru/hallway_localization.bag>`_            137 s    40.4 MB
+=================================================================================================================================== ======== ======== ============

@@ -17,14 +17,15 @@
 #include <string>
 #include <vector>
 
+#include "absl/memory/memory.h"
 #include "cartographer/common/configuration_file_resolver.h"
 #include "cartographer/common/lua_parameter_dictionary.h"
-#include "cartographer/common/make_unique.h"
 #include "cartographer/common/port.h"
 #include "cartographer_ros/node_constants.h"
 #include "cartographer_ros/ros_log_sink.h"
 #include "cartographer_ros/trajectory_options.h"
 #include "cartographer_ros_msgs/StartTrajectory.h"
+#include "cartographer_ros_msgs/StatusCode.h"
 #include "cartographer_ros_msgs/TrajectoryOptions.h"
 #include "gflags/gflags.h"
 #include "ros/ros.h"
@@ -43,9 +44,9 @@ namespace cartographer_ros {
 namespace {
 
 TrajectoryOptions LoadOptions() {
-  auto file_resolver = cartographer::common::make_unique<
-      cartographer::common::ConfigurationFileResolver>(
-      std::vector<std::string>{FLAGS_configuration_directory});
+  auto file_resolver =
+      absl::make_unique<cartographer::common::ConfigurationFileResolver>(
+          std::vector<std::string>{FLAGS_configuration_directory});
   const std::string code =
       file_resolver->GetFileContentOrDie(FLAGS_configuration_basename);
   auto lua_parameter_dictionary =
@@ -53,8 +54,7 @@ TrajectoryOptions LoadOptions() {
           code, std::move(file_resolver));
   if (!FLAGS_initial_pose.empty()) {
     auto initial_trajectory_pose_file_resolver =
-        cartographer::common::make_unique<
-            cartographer::common::ConfigurationFileResolver>(
+        absl::make_unique<cartographer::common::ConfigurationFileResolver>(
             std::vector<std::string>{FLAGS_configuration_directory});
     auto initial_trajectory_pose =
         cartographer::common::LuaParameterDictionary::NonReferenceCounted(
@@ -85,7 +85,14 @@ bool Run() {
       node_handle.resolveName(kOdometryTopic, true);
 
   if (!client.call(srv)) {
-    LOG(ERROR) << "Error starting trajectory.";
+    LOG(ERROR) << "Failed to call " << kStartTrajectoryServiceName << ".";
+    return false;
+  }
+  if (srv.response.status.code != cartographer_ros_msgs::StatusCode::OK) {
+    LOG(ERROR) << "Error starting trajectory - message: '"
+               << srv.response.status.message
+               << "' (status code: " << std::to_string(srv.response.status.code)
+               << ").";
     return false;
   }
   LOG(INFO) << "Started trajectory " << srv.response.trajectory_id;

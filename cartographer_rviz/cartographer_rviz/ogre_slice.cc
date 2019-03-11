@@ -21,6 +21,9 @@
 
 #include "OgreGpuProgramParams.h"
 #include "OgreImage.h"
+#include "OgreMaterialManager.h"
+#include "OgreTechnique.h"
+#include "OgreTextureManager.h"
 #include "cartographer/common/port.h"
 
 namespace cartographer_rviz {
@@ -82,7 +85,7 @@ OgreSlice::~OgreSlice() {
 }
 
 void OgreSlice::Update(
-    const ::cartographer_ros::SubmapTexture& submap_texture) {
+    const ::cartographer::io::SubmapTexture& submap_texture) {
   slice_node_->setPosition(ToOgre(submap_texture.slice_pose.translation()));
   slice_node_->setOrientation(ToOgre(submap_texture.slice_pose.rotation()));
   // The call to Ogre's loadRawData below does not work with an RG texture,

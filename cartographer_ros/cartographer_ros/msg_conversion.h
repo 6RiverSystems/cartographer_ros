@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-#ifndef CARTOGRAPHER_ROS_MSG_CONVERSION_H_
-#define CARTOGRAPHER_ROS_MSG_CONVERSION_H_
+#ifndef CARTOGRAPHER_ROS_CARTOGRAPHER_ROS_MSG_CONVERSION_H
+#define CARTOGRAPHER_ROS_CARTOGRAPHER_ROS_MSG_CONVERSION_H
 
-#include "cartographer/common/port.h"
 #include "cartographer/common/time.h"
+#include "cartographer/io/submap_painter.h"
+#include "cartographer/sensor/landmark_data.h"
 #include "cartographer/sensor/point_cloud.h"
 #include "cartographer/transform/rigid_transform.h"
+#include "cartographer_ros_msgs/LandmarkList.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/Transform.h"
 #include "geometry_msgs/TransformStamped.h"
-#include "pcl/point_cloud.h"
-#include "pcl/point_types.h"
-#include "pcl_conversions/pcl_conversions.h"
+#include "nav_msgs/OccupancyGrid.h"
 #include "sensor_msgs/Imu.h"
 #include "sensor_msgs/LaserScan.h"
 #include "sensor_msgs/MultiEchoLaserScan.h"
@@ -59,7 +59,10 @@ ToPointCloudWithIntensities(const sensor_msgs::MultiEchoLaserScan& msg);
 
 std::tuple<::cartographer::sensor::PointCloudWithIntensities,
            ::cartographer::common::Time>
-ToPointCloudWithIntensities(const sensor_msgs::PointCloud2& message);
+ToPointCloudWithIntensities(const sensor_msgs::PointCloud2& msg);
+
+::cartographer::sensor::LandmarkData ToLandmarkData(
+    const cartographer_ros_msgs::LandmarkList& landmark_list);
 
 ::cartographer::transform::Rigid3d ToRigid3d(
     const geometry_msgs::TransformStamped& transform);
@@ -70,6 +73,22 @@ Eigen::Vector3d ToEigen(const geometry_msgs::Vector3& vector3);
 
 Eigen::Quaterniond ToEigen(const geometry_msgs::Quaternion& quaternion);
 
+// Converts from WGS84 (latitude, longitude, altitude) to ECEF.
+Eigen::Vector3d LatLongAltToEcef(double latitude, double longitude,
+                                 double altitude);
+
+// Returns a transform that takes ECEF coordinates from nearby points to a local
+// frame that has z pointing upwards.
+cartographer::transform::Rigid3d ComputeLocalFrameFromLatLong(double latitude,
+                                                              double longitude);
+
+// Points to an occupancy grid message at a specific resolution from painted
+// submap slices obtained via ::cartographer::io::PaintSubmapSlices(...).
+std::unique_ptr<nav_msgs::OccupancyGrid> CreateOccupancyGridMsg(
+    const cartographer::io::PaintSubmapSlicesResult& painted_slices,
+    const double resolution, const std::string& frame_id,
+    const ros::Time& time);
+
 }  // namespace cartographer_ros
 
-#endif  // CARTOGRAPHER_ROS_MSG_CONVERSION_H_
+#endif  // CARTOGRAPHER_ROS_CARTOGRAPHER_ROS_MSG_CONVERSION_H

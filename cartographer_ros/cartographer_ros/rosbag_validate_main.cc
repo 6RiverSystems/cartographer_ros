@@ -20,8 +20,8 @@
 #include <set>
 #include <string>
 
+#include "absl/memory/memory.h"
 #include "cartographer/common/histogram.h"
-#include "cartographer/common/make_unique.h"
 #include "cartographer_ros/msg_conversion.h"
 #include "gflags/gflags.h"
 #include "glog/logging.h"
@@ -72,7 +72,7 @@ const std::set<std::string> kPointDataTypes = {
         ros::message_traits::DataType<sensor_msgs::LaserScan>::value())};
 
 std::unique_ptr<std::ofstream> CreateTimingFile(const std::string& frame_id) {
-  auto timing_file = ::cartographer::common::make_unique<std::ofstream>(
+  auto timing_file = absl::make_unique<std::ofstream>(
       std::string("timing_") + frame_id + ".csv", std::ios_base::out);
 
   (*timing_file)
@@ -149,7 +149,37 @@ class RangeDataChecker {
   template <typename MessageType>
   void CheckMessage(const MessageType& message) {
     const std::string& frame_id = message.header.frame_id;
-    RangeChecksum current_checksum = ComputeRangeChecksum(message);
+    ros::Time current_time_stamp = message.header.stamp;
+    RangeChecksum current_checksum;
+    cartographer::common::Time time_from, time_to;
+    ReadRangeMessage(message, &current_checksum, &time_from, &time_to);
+    auto previous_time_to_it = frame_id_to_previous_time_to_.find(frame_id);
+    if (previous_time_to_it != frame_id_to_previous_time_to_.end() &&
+        previous_time_to_it->second >= time_from) {
+      if (previous_time_to_it->second >= time_to) {
+        LOG_FIRST_N(ERROR, 3) << "Sensor with frame_id \"" << frame_id
+                              << "\" is not sequential in time."
+                              << "Previous range message ends at time "
+                              << previous_time_to_it->second
+                              << ", current one at time " << time_to;
+      } else {
+        LOG_FIRST_N(WARNING, 3)
+            << "Sensor with frame_id \"" << frame_id
+            << "\" measurements overlap in time. "
+            << "Previous range message, ending at time stamp "
+            << previous_time_to_it->second
+            << ", must finish before current range message, "
+            << "which ranges from " << time_from << " to " << time_to;
+      }
+      double overlap = cartographer::common::ToSeconds(
+          previous_time_to_it->second - time_from);
+      auto it = frame_id_to_max_overlap_duration_.find(frame_id);
+      if (it == frame_id_to_max_overlap_duration_.end() ||
+          overlap > frame_id_to_max_overlap_duration_.at(frame_id)) {
+        frame_id_to_max_overlap_duration_[frame_id] = overlap;
+      }
+    }
+    frame_id_to_previous_time_to_[frame_id] = time_to;
     if (current_checksum.first == 0) {
       return;
     }
@@ -160,11 +190,20 @@ class RangeDataChecker {
         LOG_FIRST_N(ERROR, 3)
             << "Sensor with frame_id \"" << frame_id
             << "\" sends exactly the same range measurements multiple times. "
-            << "Range data at time " << message.header.stamp
-            << " equals preceding data.";
+            << "Range data at time " << current_time_stamp
+            << " equals preceding data with " << current_checksum.first
+            << " points.";
       }
     }
     frame_id_to_range_checksum_[frame_id] = current_checksum;
+  }
+
+  void PrintReport() {
+    for (auto& it : frame_id_to_max_overlap_duration_) {
+      LOG(WARNING) << "Sensor with frame_id \"" << it.first
+                   << "\" range measurements have longest overlap of "
+                   << it.second << " s";
+    }
   }
 
  private:
@@ -172,17 +211,43 @@ class RangeDataChecker {
       RangeChecksum;
 
   template <typename MessageType>
-  RangeChecksum ComputeRangeChecksum(const MessageType& message) {
+  static void ReadRangeMessage(const MessageType& message,
+                               RangeChecksum* range_checksum,
+                               cartographer::common::Time* from,
+                               cartographer::common::Time* to) {
+    auto point_cloud_time = ToPointCloudWithIntensities(message);
     const cartographer::sensor::TimedPointCloud& point_cloud =
-        std::get<0>(ToPointCloudWithIntensities(message)).points;
+        std::get<0>(point_cloud_time).points;
+    *to = std::get<1>(point_cloud_time);
+    *from = *to + cartographer::common::FromSeconds(point_cloud[0].time);
     Eigen::Vector4f points_sum = Eigen::Vector4f::Zero();
     for (const auto& point : point_cloud) {
-      points_sum += point;
+      points_sum.head<3>() += point.position;
+      points_sum[3] += point.time;
     }
-    return {point_cloud.size(), points_sum};
+    if (point_cloud.size() > 0) {
+      double first_point_relative_time = point_cloud[0].time;
+      double last_point_relative_time = (*point_cloud.rbegin()).time;
+      if (first_point_relative_time > 0) {
+        LOG_FIRST_N(ERROR, 1)
+            << "Sensor with frame_id \"" << message.header.frame_id
+            << "\" has range data that has positive relative time "
+            << first_point_relative_time << " s, must negative or zero.";
+      }
+      if (last_point_relative_time != 0) {
+        LOG_FIRST_N(INFO, 1)
+            << "Sensor with frame_id \"" << message.header.frame_id
+            << "\" has range data whose last point has relative time "
+            << last_point_relative_time << " s, should be zero.";
+      }
+    }
+    *range_checksum = {point_cloud.size(), points_sum};
   }
 
   std::map<std::string, RangeChecksum> frame_id_to_range_checksum_;
+  std::map<std::string, cartographer::common::Time>
+      frame_id_to_previous_time_to_;
+  std::map<std::string, double> frame_id_to_max_overlap_duration_;
 };
 
 void Run(const std::string& bag_filename, const bool dump_timing) {
@@ -247,13 +312,13 @@ void Run(const std::string& bag_filename, const bool dump_timing) {
     auto& entry = frame_id_to_properties.at(frame_id);
     if (!first_packet) {
       const double delta_t_sec = (time - entry.last_timestamp).toSec();
-      if (delta_t_sec < 0) {
+      if (delta_t_sec <= 0) {
         LOG_FIRST_N(ERROR, 3)
             << "Sensor with frame_id \"" << frame_id
-            << "\" jumps backwards in time. Make sure that the bag "
-               "contains the data for each frame_id sorted by "
-               "header.stamp, i.e. the order in which they were "
-               "acquired from the sensor.";
+            << "\" jumps backwards in time, i.e. timestamps are not strictly "
+               "increasing. Make sure that the bag contains the data for each "
+               "frame_id sorted by header.stamp, i.e. the order in which they "
+               "were acquired from the sensor.";
       }
       entry.time_deltas.push_back(delta_t_sec);
     }
@@ -290,6 +355,8 @@ void Run(const std::string& bag_filename, const bool dump_timing) {
     }
   }
   bag.close();
+
+  range_data_checker.PrintReport();
 
   if (num_imu_messages > 0) {
     double average_imu_acceleration = sum_imu_acceleration / num_imu_messages;
