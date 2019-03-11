@@ -47,7 +47,7 @@
   <depend>geometry_msgs</depend>
   <depend>libgflags-dev</depend>
   <depend>libgoogle-glog-dev</depend>
-  <depend>libpcl-all-dev</depend>
+  <depend version_eq="1.0.0-dependencies.2">pcl</depend>
   <depend>message_runtime</depend>
   <depend>nav_msgs</depend>
   <depend>pcl_conversions</depend>
