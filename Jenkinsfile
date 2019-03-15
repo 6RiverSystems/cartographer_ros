@@ -26,7 +26,7 @@ parallel(
                     }}
               }
               post {
-                  cleanup {
+                  always {
                       script {
                           customImage.inside('-u 0:0') {
                               sh "chmod -R 777 ."
@@ -62,7 +62,7 @@ parallel(
                   }
             }
             post {
-                cleanup {
+                always {
                     script {
                         customImage.inside('-u 0:0') {
                             sh "chmod -R 777 ."
