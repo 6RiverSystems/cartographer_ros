@@ -14,7 +14,7 @@ parallel(
                 customImage = docker.build("gcr.io/plasma-column-128721/cart-builder:amd64", " --file 6river-amd64.dockerfile ." )
             }
             stage("Build and Publish") {
-                customImage.inside("-u 1000:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
+                customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
                         usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                     withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
@@ -39,7 +39,7 @@ parallel(
                 customImage = docker.build("gcr.io/plasma-column-128721/cart-builder:arm64", " --file 6river-arm64.dockerfile ." )
             }
             stage("Build and Publish") {
-                customImage.inside("-u 1000:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
+                customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
                     withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
                             usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
