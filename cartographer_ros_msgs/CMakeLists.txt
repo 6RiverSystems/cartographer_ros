@@ -24,23 +24,33 @@ set(PACKAGE_DEPENDENCIES
 find_package(catkin REQUIRED COMPONENTS message_generation ${PACKAGE_DEPENDENCIES})
 
 add_message_files(
+  DIRECTORY msg
   FILES
+    BagfileProgress.msg
+    HistogramBucket.msg
     LandmarkEntry.msg
     LandmarkList.msg
+    MetricFamily.msg
+    MetricLabel.msg
+    Metric.msg
+    SensorTopics.msg
     StatusCode.msg
     StatusResponse.msg
-    SubmapList.msg
     SubmapEntry.msg
+    SubmapList.msg
     SubmapTexture.msg
-    SensorTopics.msg
     TrajectoryOptions.msg
+    TrajectoryStates.msg
 )
 
 add_service_files(
+  DIRECTORY srv
   FILES
-    SubmapQuery.srv
     FinishTrajectory.srv
+    GetTrajectoryStates.srv
+    ReadMetrics.srv
     StartTrajectory.srv
+    SubmapQuery.srv
     WriteState.srv
 )
 
