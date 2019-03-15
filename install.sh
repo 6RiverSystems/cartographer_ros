@@ -29,7 +29,7 @@ cd /opt/cartographer
 wstool init src
 
 ## Merge the cartographer_ros.rosinstall file and fetch code for dependencies.
-wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer_ros/6river/cartographer_ros.rosinstall
+wstool merge -t src https://raw.githubusercontent.com/6RiverSystems/cartographer_ros/6rivertest/cartographer_ros.rosinstall
 wstool update -t src
 
 ## install dependencies
