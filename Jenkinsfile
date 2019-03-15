@@ -25,6 +25,16 @@ parallel(
                         '''
                     }}
               }
+              post {
+                  always {
+                      script {
+                          customImage.inside('-u 0:0') {
+                              sh "chmod -R 777 ."
+                          }
+                      }
+                      deleteDir()
+                  }
+              } 
           }
       }
     },
@@ -51,6 +61,16 @@ parallel(
                     }
                   }
             }
+            post {
+                always {
+                    script {
+                        customImage.inside('-u 0:0') {
+                            sh "chmod -R 777 ."
+                        }
+                    }
+                    deleteDir()
+                }
+            } 
         }
       }
     },
