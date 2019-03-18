@@ -73,8 +73,9 @@ parallel(
             // we need to re-throw it, to ensure that the build is marked as failed
             throw e
           } finally {
-            echo "Running finally statement"
+            echo "Running arm64 finally statement"
             stage("Cleanup") {
+              echo "Inside cleanup stage"
               customImage.inside('-u 0:0') {
                 sh "chmod -R 777 ."
               }
