@@ -15,26 +15,28 @@ parallel(
             }
             stage("Build and Publish") {
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
-                        usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
-                    withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
-                        sh '''
-                        export ARCHITECTURE='amd64'
-                        export DISTRO='xenial'
-                        ./install.sh 
-                        '''
-                    }}
-              }
-              post {
-                  always {
-                      script {
-                          customImage.inside('-u 0:0') {
-                              sh "chmod -R 777 ."
-                          }
+                  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
+                          usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
+                      withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
+                          sh '''
+                          export ARCHITECTURE='amd64'
+                          export DISTRO='xenial'
+                          ./install.sh 
+                          '''
                       }
-                      deleteDir()
+                    }
                   }
-              } 
+              post {
+                always {
+                  script {
+                    customImage.inside('-u 0:0') {
+                      sh "chmod -R 777 ."
+                    }
+                  }
+                  deleteDir()
+                }
+              }
+            }
           }
       }
     },
@@ -50,7 +52,7 @@ parallel(
             }
             stage("Build and Publish") {
                 customImage.inside("-u 0:0 -e GIT_BRANCH=${scmVars.GIT_BRANCH}") {
-                    withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
+                  withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
                             usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                         sh '''
@@ -60,17 +62,18 @@ parallel(
                         '''
                     }
                   }
-            }
-            post {
-                always {
-                    script {
-                        customImage.inside('-u 0:0') {
-                            sh "chmod -R 777 ."
-                        }
-                    }
-                    deleteDir()
                 }
-            } 
+                post {
+                    always {
+                        script {
+                            customImage.inside('-u 0:0') {
+                                sh "chmod -R 777 ."
+                            }
+                        }
+                        deleteDir()
+                    }
+                }
+            }
         }
       }
     },
