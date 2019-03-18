@@ -35,8 +35,10 @@ parallel(
             throw e
           } finally {
             echo "Running finally statement"
-            customImage.inside('-u 0:0') {
-              sh "chmod -R 777 ."
+            stage("Cleanup") {
+              customImage.inside('-u 0:0') {
+                sh "chmod -R 777 ."
+              }
             }
           }        
         }
@@ -72,8 +74,10 @@ parallel(
             throw e
           } finally {
             echo "Running finally statement"
-            customImage.inside('-u 0:0') {
-              sh "chmod -R 777 ."
+            stage("Cleanup") {
+              customImage.inside('-u 0:0') {
+                sh "chmod -R 777 ."
+              }
             }
           }        
         }
