@@ -38,7 +38,6 @@ parallel(
               }
             }
           }
-      }
     },
     "arm64-xenial": {
         node('docker && arm64') {
@@ -74,7 +73,7 @@ parallel(
                     }
                 }
             }
-        }
+        
       }
     },
 )
