@@ -10,7 +10,7 @@ apt-get install apt-transport-https
 apt-get install -y curl python-wstool python-rosdep ninja-build
 
 # Install proto3.
-#./scripts/install_proto3.sh
+./scripts/install_proto3.sh
 
 ARCH=$(dpkg --print-architecture)
 # Make the directory
@@ -36,7 +36,7 @@ wstool update -t src
 ## install dependencies
 rosdep update
 apt-get upgrade -y
-rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+rosdep install --from-paths /opt/cartographer/src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 ## actually build cartographer
 catkin_make_isolated --install --use-ninja
