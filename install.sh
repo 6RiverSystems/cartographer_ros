@@ -28,7 +28,7 @@ VERSION="$(cat .version)"
 
 cd /opt/cartographer
 wstool init src
-cp -r ${WORKSPACE} /opt/cartographer/src
+#cp -r ${WORKSPACE} /opt/cartographer/src
 ## Merge the cartographer_ros.rosinstall file and fetch code for dependencies.
 wstool merge -t src ${WORKSPACE}/cartographer_ros.rosinstall
 wstool update -t src
@@ -36,7 +36,7 @@ wstool update -t src
 ## install dependencies
 rosdep update
 apt-get upgrade -y
-rosdep install --from-paths /opt/cartographer/src --ignore-src --rosdistro=${ROS_DISTRO} -y
+rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 ## actually build cartographer
 catkin_make_isolated --install --use-ninja
