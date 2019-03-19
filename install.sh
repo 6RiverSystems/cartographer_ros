@@ -25,7 +25,6 @@ VERSION="$(cat .version)"
 #VERSION='fix Jenkins'
 
 # Init workspace
-apt-get install pcl=1.0.0-dependencies.2 -y 
 cd /opt/cartographer
 wstool init src
 ## Merge the cartographer_ros.rosinstall file and fetch code for dependencies.
