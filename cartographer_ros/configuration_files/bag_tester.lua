@@ -38,7 +38,7 @@ options = {
   rangefinder_sampling_ratio = 1.,
   odometry_sampling_ratio = 1.,
   fixed_frame_pose_sampling_ratio = 1.,
-  imu_sampling_ratio = 1.,
+  imu_sampling_ratio = .5,
   landmarks_sampling_ratio = 1.,
 }
 
@@ -52,13 +52,13 @@ TRAJECTORY_BUILDER_2D.missing_data_ray_length = 5.
 
 -- Whether to solve the online scan matching first using the correlative scan matcher to generate a good starting point for Ceres.
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = false
-TRAJECTORY_BUILDER_2D.use_imu_data = false
+TRAJECTORY_BUILDER_2D.use_imu_data = true
 
-TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 0.15
+TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 0.1 
 TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.angular_search_window = math.rad(35.)
 --TRAJECTORY_BUILDER_2D.ceres_scan_matcher.ceres_solver_options.max_num_iterations = 30
 -- Make the value larger to trust odometry more and better handle long aisle
-TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 5e1
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 40
 -- Number of scans before adding a new submap. Each submap will get twice the number of scans inserted: First for initialization without being matched against, then while being matched.
 -- Generate more submaps and thus should have more locally accurate submaps
 TRAJECTORY_BUILDER_2D.submaps.num_range_data = 60
@@ -72,6 +72,6 @@ POSE_GRAPH.constraint_builder.fast_correlative_scan_matcher.angular_search_windo
 POSE_GRAPH.optimize_every_n_nodes = 60
 -- Threshold for the scan match score below which a match is not considered. Low scores indicate that the scan and map do not look similar.
 -- Make the loop closure not too aggressive
-POSE_GRAPH.constraint_builder.min_score = 0.65
+POSE_GRAPH.constraint_builder.min_score = 0.55
 
 return options
