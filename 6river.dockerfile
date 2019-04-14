@@ -11,7 +11,7 @@ RUN cat /keys/artifactory_key.pub | apt-key add - && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/ros-ubuntu xenial main" >> /etc/apt/sources.list
 
 RUN sh -c 'echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main" >> /etc/apt/sources.list' && \
-    cat /keys/llvm-snapshot.gpg.key | apt-key add - && \apt-get update && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
         cmake \
