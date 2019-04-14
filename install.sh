@@ -5,15 +5,15 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
 
+apt-get update
+apt-get install apt-transport-https
+apt-get install -y curl python-wstool python-rosdep ninja-build
+
 cat ${WORKSPACE}/docker-deps/artifactory_key.pub | apt-key add - && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116 && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/debian xenial main" >> /etc/apt/sources.list && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/ros-ubuntu xenial main" >> /etc/apt/sources.list
-
 apt-get update
-apt-get install apt-transport-https
-
-apt-get install -y curl python-wstool python-rosdep ninja-build
 
 apt-get install pcl=1.8.1
 
