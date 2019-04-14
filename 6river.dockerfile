@@ -5,7 +5,7 @@ ARG ARTIFACTORY_PASSWORD
 
 COPY docker-deps/ /keys
 
-echo ${ARTIFACTORY_USERNAME}
+RUN echo ${ARTIFACTORY_USERNAME}
 
 RUN apt-get update
 RUN apt-get install -y \
