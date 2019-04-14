@@ -1,10 +1,9 @@
 FROM #DOCKER_IMAGE 
 
-RUN apt-get update 
-RUN apt-get install -y \
-      build-essential \	
+RUN apt-get update && \ 
+      apt-get install -y \
+      build-essential \
       ruby-dev \
       rubygems \
-      libffi-dev 
-
+      libffi-dev
 RUN gem install fpm
