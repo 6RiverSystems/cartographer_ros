@@ -11,7 +11,7 @@ RUN cat /keys/artifactory_key.pub | apt-key add - && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/ros-ubuntu xenial main" >> /etc/apt/sources.list
 
 RUN apt-get update 
-RUN apt-get install -y
+RUN apt-get install -y \
       build-essential \	
       ruby-dev \
       rubygems \
