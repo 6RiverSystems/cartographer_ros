@@ -9,6 +9,8 @@ apt-get install apt-transport-https
 
 apt-get install -y curl python-wstool python-rosdep ninja-build
 
+apt-get install pcl=1.8.1
+
 # Install proto3.
 ./scripts/install_proto3.sh
 
