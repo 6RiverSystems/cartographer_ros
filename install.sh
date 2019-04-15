@@ -5,8 +5,6 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 # Build cartographer
 ## Get dependencies
 
-sed 's~ports.ubuntu.com/ubuntu-ports~mirrors.mit.edu/ubuntu~g' /etc/apt/sources.list 
-
 apt-get update
 apt-get install apt-transport-https
 apt-get install -y curl python-wstool python-rosdep ninja-build
