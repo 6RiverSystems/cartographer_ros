@@ -14,7 +14,6 @@ cat ${WORKSPACE}/docker-deps/artifactory_key.pub | apt-key add - && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/debian xenial main" >> /etc/apt/sources.list && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/ros-ubuntu xenial main" >> /etc/apt/sources.list
 apt-get update
-
 apt-get install -y pcl=1.8.1
 
 # Install proto3.
