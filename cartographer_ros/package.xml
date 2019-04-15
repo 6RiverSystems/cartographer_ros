@@ -28,7 +28,6 @@
   </maintainer>
   <license>Apache 2.0</license>
 
-  <url>https://github.com/googlecartographer/cartographer_ros</url>
 
   <author email="google-cartographer@googlegroups.com">
     The Cartographer Authors
@@ -47,7 +46,6 @@
   <depend>geometry_msgs</depend>
   <depend>libgflags-dev</depend>
   <depend>libgoogle-glog-dev</depend>
-  <depend version_eq="1.0.0-dependencies.2">pcl</depend>
   <depend>message_runtime</depend>
   <depend>nav_msgs</depend>
   <depend>pcl_conversions</depend>
