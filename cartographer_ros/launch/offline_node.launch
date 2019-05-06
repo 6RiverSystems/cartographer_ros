@@ -22,6 +22,8 @@
   <arg name="configuration_basenames"/>
   <arg name="urdf_filenames"/>
   <arg name="launch_prefix"/>
+  <arg name="load_state_filename" default=""/>
+  <arg name="load_pbstream" default="false"/>
 
   <param name="/use_sim_time" value="true" />
 
@@ -38,13 +40,27 @@
         args="-resolution 0.05" />
   </group>
 
-  <node name="cartographer_offline_node" pkg="cartographer_ros"
-      required="$(arg no_rviz)"
-      type="cartographer_offline_node" args="
-          -configuration_directory $(arg configuration_directory)
-          -configuration_basenames $(arg configuration_basenames)
-          -urdf_filenames $(arg urdf_filenames)
-          -bag_filenames $(arg bag_filenames)"
-      launch-prefix="$(arg launch_prefix)"
-      output="screen"/>
+  <group unless="$(arg load_pbstream)">
+    <node name="cartographer_offline_node" pkg="cartographer_ros"
+        required="$(arg no_rviz)"
+        type="cartographer_offline_node" args="
+            -configuration_directory $(arg configuration_directory)
+            -configuration_basenames $(arg configuration_basenames)
+            -urdf_filenames $(arg urdf_filenames)
+            -bag_filenames $(arg bag_filenames)"
+        launch-prefix="$(arg launch_prefix)"
+        output="screen"/>
+  </group>
+  <group if="$(arg load_pbstream)">
+    <node name="cartographer_offline_node" pkg="cartographer_ros"
+        required="$(arg no_rviz)"
+        type="cartographer_offline_node" args="
+            -configuration_directory $(arg configuration_directory)
+            -configuration_basenames $(arg configuration_basenames)
+            -urdf_filenames $(arg urdf_filenames)
+            -bag_filenames $(arg bag_filenames)
+            -load_state_filename $(arg load_state_filename)"
+        launch-prefix="$(arg launch_prefix)"
+        output="screen"/>
+  </group>
 </launch>
