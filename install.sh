@@ -15,7 +15,11 @@ cat ${WORKSPACE}/docker-deps/artifactory_key.pub | apt-key add - && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/debian ${DISTRO} main" >> /etc/apt/sources.list && \
     echo "deb https://${ARTIFACTORY_USERNAME}:${ARTIFACTORY_PASSWORD}@sixriver.jfrog.io/sixriver/ros-ubuntu ${DISTRO} main" >> /etc/apt/sources.list
 apt-get update
+if [ "${DISTRO}" = "xenial" ]; then
 apt-get install -y pcl=1.8.1
+else
+    apt-get install -y libpcl-dev
+fi
 
 # Install proto3.
 ./scripts/install_proto3.sh
