@@ -76,7 +76,6 @@ fpm -s dir -t deb \
     -d libgoogle-glog-dev \
     -d libatlas-base-dev \
     -d liblas-dev \
-    -d libcholmod2.1.2 \
     -d joystick \
     -d libsuitesparse-dev \
     -n cartographer-six-river --version ${VERSION} /opt/cartographer/install_isolated/=/opt/cartographer/install_isolated
