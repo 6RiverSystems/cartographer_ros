@@ -12,6 +12,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
+## 6River Development to fix jenkins 
+
+In install.sh, comment out the semrel lines, and uncomment the test version.
+Running the following will drop you into a container just like jenkins
+```
+docker build -f 6river-dev.dockerfile -t dev . 
+docker run --rm -it -v $(pwd):/Jenkins dev /bin/bash
+```
+In the container, run install.sh to test install. 
+
 ============================
 Cartographer ROS Integration
 ============================
