@@ -1,0 +1,33 @@
+<!--
+  Copyright 2018 The Cartographer Authors
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<launch>
+  <arg name="rviz_config" default="$(find cartographer_ros)/configuration_files/demo_2d.rviz"/>
+  <arg name="configuration_directory" default="$(find cartographer_ros)/configuration_files"/>
+  <arg name="configuration_basenames" default="sim_chuck.lua"/>
+  <arg name="urdf_filenames" default="$(find cartographer_ros)/urdf/backpack_2d.urdf"/>
+  <arg name="launch_prefix" default=""/>
+  <remap from="odom" to="/sensors/odometry/pose" />
+  <remap from="scan" to="/sensors/lidar/scan" />
+
+  <param name="/use_sim_time" value="true" />
+  <node name="cartographer_node" pkg="cartographer_ros"
+      type="cartographer_node" args="
+          -configuration_directory $(find cartographer_ros)/configuration_files
+          -configuration_basename sim_chuck.lua"
+      output="screen">
+  </node>
+</launch>
