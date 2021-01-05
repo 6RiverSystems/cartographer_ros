@@ -84,7 +84,7 @@ ls -la
 pwd
 
 export ARTIFACT_DEB_NAME="cartographer-six-river_${VERSION}_${ARCHITECTURE}.deb"
-export ARTIFACTORY_DEB_NAME="cartographer-six-river_${VERSION}${DISTRO}_${ARCHITECTURE}.deb"
+export ARTIFACTORY_DEB_NAME="cartographer-six-river_${VERSION}_${DISTRO}_${ARCHITECTURE}.deb"
 
 time curl \
 	-H "X-JFrog-Art-Api: ${ARTIFACTORY_PASSWORD}" \
