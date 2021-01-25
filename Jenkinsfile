@@ -101,9 +101,9 @@ parallel(
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
                           usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                       sh '''
-                      export ARCHITECTURE='arm64'
-                      export DISTRO='xenial'
-                      export ROS_DISTRO='kinetic'
+                      export ARCHITECTURE=arm64
+                      export DISTRO=xenial
+                      export ROS_DISTRO=kinetic
                       ./install.sh
                       '''
                   }
