@@ -85,14 +85,14 @@ parallel(
           }
         }
     },
-    "arm64-xenial": {
+    "arm64-bionic": {
         node('docker && arm64') {
           def customImage = ""
           def scmVars = ""
           try {
             stage("Build Docker Image") {
                 scmVars = checkout scm
-                sh 'sed -e "s/#DOCKER_IMAGE/arm64v8\\/ros:kinetic/g" 6river.dockerfile > 6river-arm64.dockerfile'
+                sh 'sed -e "s/#DOCKER_IMAGE/arm64v8\\/ros:melodic/g" 6river.dockerfile > 6river-arm64.dockerfile'
                 customImage = docker.build("gcr.io/plasma-column-128721/cart-builder:arm64", " --file 6river-arm64.dockerfile ." )
             }
             stage("Build and Publish") {
@@ -101,9 +101,9 @@ parallel(
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
                           usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                       sh '''
-                      export ARCHITECTURE=arm64
-                      export DISTRO=xenial
-                      export ROS_DISTRO=kinetic
+                      export ARCHITECTURE='arm64'
+                      export DISTRO='bionic'
+                      export ROS_DISTRO='melodic'
                       ./install.sh
                       '''
                   }
@@ -126,14 +126,14 @@ parallel(
           }
         }
     },
-    "arm64-bionic": {
+    "arm64-xenial": {
         node('docker && arm64') {
           def customImage = ""
           def scmVars = ""
           try {
             stage("Build Docker Image") {
                 scmVars = checkout scm
-                sh 'sed -e "s/#DOCKER_IMAGE/arm64v8\\/ros:melodic/g" 6river.dockerfile > 6river-arm64.dockerfile'
+                sh 'sed -e "s/#DOCKER_IMAGE/arm64v8\\/ros:kinetic/g" 6river.dockerfile > 6river-arm64.dockerfile'
                 customImage = docker.build("gcr.io/plasma-column-128721/cart-builder:arm64", " --file 6river-arm64.dockerfile ." )
             }
             stage("Build and Publish") {
@@ -142,9 +142,9 @@ parallel(
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
                           usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                       sh '''
-                      export ARCHITECTURE='arm64'
-                      export DISTRO='bionic'
-                      export ROS_DISTRO='melodic'
+                      export ARCHITECTURE=arm64
+                      export DISTRO=xenial
+                      export ROS_DISTRO=kinetic
                       ./install.sh
                       '''
                   }
