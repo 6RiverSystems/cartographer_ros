@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eo pipefail
+echo $ROS_DISTRO
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 
 # Build cartographer
