@@ -21,6 +21,7 @@ parallel(
                       sh '''
                         export ARCHITECTURE='amd64'
                         export DISTRO='bionic'
+                        export ROS_DISTRO='melodic'
                         ./install.sh
                       '''
                     }
@@ -61,6 +62,7 @@ parallel(
                       sh '''
                         export ARCHITECTURE='amd64'
                         export DISTRO='xenial'
+                        export ROS_DISTRO='kinetic'
                         ./install.sh
                       '''
                     }
@@ -101,6 +103,7 @@ parallel(
                       sh '''
                       export ARCHITECTURE='arm64'
                       export DISTRO='xenial'
+                      export ROS_DISTRO='kinetic'
                       ./install.sh
                       '''
                   }
@@ -141,6 +144,7 @@ parallel(
                       sh '''
                       export ARCHITECTURE='arm64'
                       export DISTRO='bionic'
+                      export ROS_DISTRO='melodic'
                       ./install.sh
                       '''
                   }
