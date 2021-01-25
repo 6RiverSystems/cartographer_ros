@@ -19,8 +19,9 @@ parallel(
                         usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                     withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                       sh '''
-                        export ARCHITECTURE='amd64'
-                        export DISTRO='bionic'
+                        export ARCHITECTURE=amd64
+                        export DISTRO=bionic
+                        export ROS_DISTRO=melodic
                         ./install.sh
                       '''
                     }
@@ -59,8 +60,9 @@ parallel(
                         usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                     withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
                       sh '''
-                        export ARCHITECTURE='amd64'
-                        export DISTRO='xenial'
+                        export ARCHITECTURE=amd64
+                        export DISTRO=xenial
+                        export ROS_DISTRO=kinetic
                         ./install.sh
                       '''
                     }
@@ -99,8 +101,9 @@ parallel(
                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory_apt',
                           usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
                       sh '''
-                      export ARCHITECTURE='arm64'
-                      export DISTRO='bionic'
+                      export ARCHITECTURE=arm64
+                      export DISTRO=bionic
+                      export ROS_DISTRO=melodic
                       ./install.sh
                       '''
                   }
@@ -141,6 +144,7 @@ parallel(
                       sh '''
                       export ARCHITECTURE=arm64
                       export DISTRO=xenial
+                      export ROS_DISTRO=kinetic
                       ./install.sh
                       '''
                   }
